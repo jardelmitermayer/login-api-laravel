@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AutenticadorControlador extends Controller
 {
-    public function register(Request $request){
+    public function registro(Request $request){
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
@@ -32,7 +32,7 @@ class AutenticadorControlador extends Controller
             'password' => 'required|string'
         ]);
         $credenciais = [
-            'email' => $request->email ,
+            'email' => $request->email,
             'password' => $request->password 
         ];
 
@@ -40,15 +40,14 @@ class AutenticadorControlador extends Controller
             return response()->json([
                 'res' => 'Acesso negado'
             ], 401);
-            $user = $request->user();
-            $token = $user->createToken('token de acesso')->accessToken();
+        }    
 
-            return response()->json([
-                'token' => $token
-            ], 200);
-        }
-
-        
+        $user = $request->user();
+        $token = $user->createToken('Token de acesso')->accessToken;
+    
+        return response()->json([
+            'token' => $token
+        ], 200);  
 
     }
     public function logout(Request $request){
